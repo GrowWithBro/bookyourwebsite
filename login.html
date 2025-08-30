@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Login — Book Your Website</title>
+<link rel="stylesheet" href="style.css"/><script defer src="script.js"></script>
+</head><body>
+<header>
+  <div class="brand"><div class="logo"></div><div>Book Your Website</div></div>
+  <nav>
+    <a class="btn" href="index.html">Home</a>
+    <a class="btn" href="templates.html">Templates</a>
+  </nav>
+</header>
+<main>
+  <section class="hero" style="min-height:40vh">
+    <div>
+      <h1>Login</h1>
+      <form id="loginForm" onsubmit="event.preventDefault(); localStorage.setItem('byw-user', this.email.value); alert('Logged in as '+this.email.value)">
+        <input name="email" type="email" required placeholder="you@example.com" style="padding:10px;border-radius:8px;border:1px solid #ffffff2a;background:#0e1428;color:#eaf2ff;min-width:260px"/>
+        <button class="btn" style="margin-left:8px" type="submit">Login</button>
+      </form>
+    </div>
+  </section>
+</main>
+<footer>© Book Your Website</footer>
+</body></html>

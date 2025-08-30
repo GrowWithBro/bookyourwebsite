@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Checkout — Book Your Website</title>
+<link rel="stylesheet" href="style.css"/><script defer src="script.js"></script>
+</head><body>
+<header>
+  <div class="brand"><div class="logo"></div><div>Book Your Website</div></div>
+  <nav>
+    <a class="btn" href="index.html">Home</a>
+    <a class="btn" href="templates.html">Templates</a>
+    <a class="btn" href="how-it-works.html">How it works</a>
+  </nav>
+</header>
+<main>
+  <h1 class="reveal">Checkout</h1>
+  <div id="summary" class="reveal"></div>
+  <hr class="sep">
+  <form id="payForm" class="reveal">
+    <div class="row">
+      <label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
+      <label>Name<input name="name" required placeholder="Your Name"></label>
+    </div>
+    <button class="btn primary" type="submit">Pay Now</button>
+  </form>
+  <p class="small"><small class="muted">Note: Demo payment. Replace with Stripe/Razorpay for live.</small></p>
+</main>
+<footer>© Book Your Website</footer>
+<script>
+const summary=cartSummary();
+const wrap=document.getElementById('summary');
+if(!summary){wrap.innerHTML='<p>Your cart is empty. Go to <a href="templates.html">Templates</a>.</p>'}
+else{
+  wrap.innerHTML=`
+  <h3>Order Summary</h3>
+  <table class="table">
+    <tr><th>Template</th><td>${summary.t.name}</td></tr>
+    <tr><th>Plan</th><td>${summary.p.label}</td></tr>
+    <tr><th>Base</th><td>${currency(summary.base)}</td></tr>
+    <tr><th>Add‑ons</th><td>${summary.add.length?summary.add.map(a=>a.label+' ('+currency(a.price)+')').join(', '):'None'}</td></tr>
+    <tr><th>Total</th><td><b class="price">${currency(summary.total)}</b></td></tr>
+  </table>`;
+}
+document.getElementById('payForm').onsubmit=(e)=>{
+  e.preventDefault();
+  const email=new FormData(e.target).get('email');
+  const id='BYW'+Math.floor(100000+Math.random()*899999);
+  const cart=Store.get(); cart.order={id,email,ts:Date.now(),item:cart.item,brief:cart.brief||null};
+  Store.set(cart); location.href='order-success.html?id='+id;
+};
+</script>
+</body></html>

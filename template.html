@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Template — Book Your Website</title>
+<link rel="stylesheet" href="style.css"/><script defer src="script.js"></script>
+</head><body>
+<header>
+  <div class="brand"><div class="logo"></div><div>Book Your Website</div></div>
+  <nav>
+    <a class="btn" href="index.html">Home</a>
+    <a class="btn" href="templates.html">Templates</a>
+    <a class="btn" href="how-it-works.html">How it works</a>
+    <a class="btn" href="login.html">Login</a>
+  </nav>
+</header>
+<main id="mount"></main>
+<footer>© Book Your Website</footer>
+<script>
+const mount=document.getElementById('mount');
+const slug=new URLSearchParams(location.search).get('slug');
+const t=templates.find(x=>x.slug===slug);
+if(!t){mount.innerHTML='<p>Template not found.</p>'}
+else{
+  mount.innerHTML=`
+  <h1 class="reveal">${t.name}</h1>
+  <div class="detail">
+    <div class="preview reveal">
+      <iframe src="${t.demo}" style="border:0;width:100%;height:100%"></iframe>
+    </div>
+    <div class="panel reveal">
+      <div class="badge">${t.category}</div>
+      <p class="small"><span class="price">Base: ${currency(t.base)}</span></p>
+      <hr class="sep">
+      <label>Choose Plan</label>
+      <div class="row" id="plans"></div>
+      <label>Add-ons</label>
+      <div id="addons"></div>
+      <hr class="sep">
+      <div id="total"></div>
+      <div class="kit" style="margin-top:10px">
+        <a class="btn primary" id="book">Book this Website</a>
+        <a class="btn ghost" href="builder.html?slug=${t.slug}">Share your brief</a>
+      </div>
+    </div>
+  </div>
+  <h3 class="section-title reveal">Included Features</h3>
+  <ul class="list reveal">${t.features.map(f=>`<li>${f}</li>`).join('')}</ul>`;
+  const plansDiv=document.getElementById('plans');
+  plans.forEach(p=>{
+    const id='p-'+p.id; const wrap=document.createElement('div'); wrap.innerHTML=`
+      <label for="${id}" class="card" style="display:block">
+        <input type="radio" name="plan" id="${id}" value="${p.id}" ${p.id==='starter'?'checked':''}>
+        <b>${p.label}</b> — ×${p.multiplier} <br><small class="muted">${p.includes.join(' • ')}</small>
+      </label>`; plansDiv.appendChild(wrap);
+  });
+  const addDiv=document.getElementById('addons');
+  addons.forEach(a=>{
+    const id='a-'+a.id; const div=document.createElement('div'); div.innerHTML=`
+      <label><input type="checkbox" id="${id}" value="${a.id}"> ${a.label} 
+      <span class="price" style="float:right">${currency(a.price)}</span></label>`; addDiv.appendChild(div);
+  });
+  function calc(){
+    const plan=document.querySelector('input[name="plan"]:checked').value;
+    const addonIds=[...document.querySelectorAll('#addons input:checked')].map(x=>x.value);
+    const p=plans.find(x=>x.id===plan); const base=Math.round(t.base*p.multiplier);
+    const extras=addonIds.map(id=>addons.find(a=>a.id===id).price).reduce((s,a)=>s+a,0);
+    const total=base+extras;
+    document.getElementById('total').innerHTML=`<b>Total: <span class="price">${currency(total)}</span></b>`;
+    return {plan,addonIds,total};
+  }
+  document.querySelectorAll('input[name="plan"]').forEach(r=>r.onchange=calc);
+  document.querySelectorAll('#addons input').forEach(c=>c.onchange=calc);
+  calc();
+  document.getElementById('book').onclick=()=>{const {plan,addonIds}=calc(); addToCart({slug:t.slug,plan,addonIds})};
+}
+</script>
+</body></html>

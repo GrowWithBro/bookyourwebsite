@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Book Your Website — Premium Templates + DFY</title>
+<link rel="stylesheet" href="style.css"/><script defer src="script.js"></script>
+</head><body>
+<header>
+  <div class="brand"><div class="logo"></div><div>Book Your Website</div><span class="badge">Premium Themes • DFY Build • Fast Delivery</span></div>
+  <nav>
+    <a class="btn" href="index.html">Home</a>
+    <a class="btn" href="templates.html">Templates</a>
+    <a class="btn" href="how-it-works.html">How it works</a>
+    <a class="btn" href="login.html">Login</a>
+    <a class="btn primary" href="templates.html">Start</a>
+  </nav>
+</header>
+<main>
+  <section class="hero reveal">
+    <div class="rings"></div>
+    <div>
+      <h1>Pick a theme. Share your vision. Get your site delivered.</h1>
+      <p>Designer‑made templates for startups, restaurants, fitness, education, real estate, and more. Choose a plan, add services (logo, copy, SEO, hosting), and check out — we build it for you.</p>
+      <div class="kit">
+        <a class="btn primary" href="templates.html">Browse Templates</a>
+        <a class="btn ghost" href="how-it-works.html">How it works</a>
+      </div>
+    </div>
+  </section>
+  <h2 class="section-title reveal">Popular Picks</h2>
+  <section class="grid" id="featured"></section>
+</main>
+<footer>© Book Your Website</footer>
+<script>
+const featured=document.getElementById('featured');
+templates.slice(0,6).forEach(t=>{
+  const a=document.createElement('a');a.href='template.html?slug='+t.slug;a.className='card reveal';
+  a.innerHTML=`<div class="thumb" style="background-image:url('${t.thumb}')"></div>
+    <div class="badge">${t.category}</div><h3>${t.name}</h3>
+    <p><span class="price">From ${currency(t.base)}</span></p>`; featured.appendChild(a);
+});
+</script>
+</body></html>

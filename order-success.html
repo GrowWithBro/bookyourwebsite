@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Order Confirmed — Book Your Website</title>
+<link rel="stylesheet" href="style.css"/><script defer src="script.js"></script>
+</head><body>
+<header>
+  <div class="brand"><div class="logo"></div><div>Book Your Website</div></div>
+  <nav>
+    <a class="btn" href="index.html">Home</a>
+    <a class="btn" href="templates.html">Templates</a>
+  </nav>
+</header>
+<main>
+  <h1 class="reveal">Thank you! 🎉</h1>
+  <p>Your order <b id="oid">—</b> has been placed.</p>
+  <a class="btn" href="index.html">Back to Home</a>
+</main>
+<footer>© Book Your Website</footer>
+<script>document.getElementById('oid').textContent=new URLSearchParams(location.search).get('id')||'—';</script>
+</body></html>

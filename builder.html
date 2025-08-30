@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Project Brief — Book Your Website</title>
+<link rel="stylesheet" href="style.css"/><script defer src="script.js"></script>
+</head><body>
+<header>
+  <div class="brand"><div class="logo"></div><div>Book Your Website</div></div>
+  <nav>
+    <a class="btn" href="index.html">Home</a>
+    <a class="btn" href="templates.html">Templates</a>
+    <a class="btn" href="how-it-works.html">How it works</a>
+  </nav>
+</header>
+<main>
+  <h1 class="reveal">Tell us about your website</h1>
+  <form id="brief" class="reveal">
+    <div class="row">
+      <label>Business name<input required name="biz" placeholder="Acme LLC"></label>
+      <label>Industry<input required name="industry" placeholder="Restaurant / SaaS / Fitness ..."></label>
+    </div>
+    <label>Vision & Goals<textarea name="vision" rows="5" placeholder="What should this website achieve?"></textarea></label>
+    <label>Pages Needed<textarea name="pages" rows="4" placeholder="Home, About, Services, Pricing, Contact ..."></textarea></label>
+    <label>Branding (colors, references, logos)<textarea name="brand" rows="4" placeholder="Share hex colors, references, logo links"></textarea></label>
+    <div class="row">
+      <label>Primary Contact Email<input required type="email" name="email" placeholder="you@example.com"></label>
+      <label>Preferred Delivery (days)<input type="number" name="days" value="7"></label>
+    </div>
+    <button class="btn primary" type="submit">Save Brief</button>
+  </form>
+</main>
+<footer>© Book Your Website</footer>
+<script>
+document.getElementById('brief').onsubmit=(e)=>{
+  e.preventDefault(); const data=Object.fromEntries(new FormData(e.target).entries());
+  const cart=Store.get(); cart.brief=data; Store.set(cart);
+  alert('Brief saved to cart. Proceed to checkout.'); location.href='checkout.html';
+};
+</script>
+</body></html>

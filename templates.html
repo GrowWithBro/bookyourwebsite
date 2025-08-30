@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Templates — Book Your Website</title>
+<link rel="stylesheet" href="style.css"/><script defer src="script.js"></script>
+</head><body>
+<header>
+  <div class="brand"><div class="logo"></div><div>Book Your Website</div></div>
+  <nav>
+    <a class="btn" href="index.html">Home</a>
+    <a class="btn" href="templates.html">Templates</a>
+    <a class="btn" href="how-it-works.html">How it works</a>
+    <a class="btn" href="login.html">Login</a>
+  </nav>
+</header>
+<main>
+  <h1 class="reveal">Choose a Template</h1>
+  <div class="row reveal">
+    <label>Filter by Category<select id="filterCat"><option value="">All</option></select></label>
+    <label>Sort<select id="sortBy"><option value="name">Name</option><option value="price-asc">Price: Low → High</option><option value="price-desc">Price: High → Low</option></select></label>
+  </div>
+  <div class="grid" id="list"></div>
+</main>
+<footer>© Book Your Website</footer>
+<script>
+const catSet=new Set(templates.map(t=>t.category));
+const catSel=document.getElementById('filterCat');[...catSet].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;catSel.appendChild(o)});
+const list=document.getElementById('list');
+function render(){
+  list.innerHTML=''; let t=[...templates];
+  const cat=catSel.value; if(cat) t=t.filter(x=>x.category===cat);
+  const s=document.getElementById('sortBy').value;
+  if(s==='name') t.sort((a,b)=>a.name.localeCompare(b.name));
+  if(s==='price-asc') t.sort((a,b)=>a.base-b.base);
+  if(s==='price-desc') t.sort((a,b)=>b.base-a.base);
+  t.forEach(tpl=>{
+    const a=document.createElement('a'); a.className='card reveal'; a.href='template.html?slug='+tpl.slug;
+    a.innerHTML=`<div class="thumb" style="background-image:url('${tpl.thumb}')"></div>
+      <div class="badge">${tpl.category}</div><h3>${tpl.name}</h3>
+      <p>${tpl.features.slice(0,3).join(' • ')}</p>
+      <p><span class="price">From ${currency(tpl.base)}</span></p>`; list.appendChild(a);
+  });
+}
+catSel.onchange=render; document.getElementById('sortBy').onchange=render; render();
+</script>
+</body></html>
